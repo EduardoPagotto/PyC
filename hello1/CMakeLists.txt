@@ -12,7 +12,7 @@ set (SourceModule src/bind.c
                   src/libHello1.c)
 
 add_library (helloworld SHARED ${SourceModule})
-set_target_properties(helloworld PROPERTIES PREFIX "" #) # remove prefix lib
+set_target_properties(helloworld PROPERTIES PREFIX ""
                                  SOVERSION 0.1
                                  PUBLIC_HEADER libHello1.h)
 

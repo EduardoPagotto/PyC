@@ -9,8 +9,8 @@ set (IncludeModule ${PYTHON_INCLUDE_PATH})
 set (SourceModule spammodule.c)
 
 add_library (spammodule SHARED ${SourceModule})
-
-set_target_properties(spammodule PROPERTIES SOVERSION 0.1)
+set_target_properties(spammodule PROPERTIES PREFIX "" 
+                                 SOVERSION 0.1)
 # # set_target_properties(spammodule PROPERTIES PUBLIC_HEADER include/mylib.h)
 
 target_include_directories (spammodule PUBLIC ${IncludeModule})
