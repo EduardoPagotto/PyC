@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "C_Cpp.clang_format_path": "/usr/bin/clang-format",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "python.pythonPath": "/usr/bin/python3"
+}
