@@ -12,9 +12,13 @@ def main():
 
     try:
         print(helloworld.hello())
-        val = helloworld.createUser()
+        user = helloworld.createUser()
         print('--------')
-        print(str(val))
+        print(str(user))
+
+        retorno = user.inicialize(222, 1223)
+        print(str(retorno))
+
     except Exception as exp:
         print('Erro: %s', str(exp))
 

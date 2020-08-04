@@ -3,9 +3,43 @@
 #include <Python.h>
 #include <stdio.h>
 
-PyObject* User_getattr(UserObject* self, char* name) {
+int handlername2int(PyObject* name) {
+    int i;
+    for (i = 0; User_methods[i].ml_name != NULL; i++) {
+        if (PyUnicode_CompareWithASCIIString(name, User_methods[i].ml_name) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+PyObject* User_getattr(UserObject* self, PyObject* nameObj) {
     // return Py_FindMethod(User_methods, (PyObject*)self, name); // TODO: implementado aqui!!!!
-    return PyObject_GenericGetAttr((PyObject*)self, PyUnicode_FromString(name));
+
+    // Py_UNICODE* name;
+    int handlernum = -1;
+
+    // if (!PyUnicode_Check(nameObj))
+    //     return PyObject_GenericGetAttr((PyObject*)self, nameObj);
+
+    handlernum = handlername2int(nameObj);
+
+    if (handlernum != -1) {
+        PyCFunction funcExec = User_methods[handlernum].ml_meth;
+
+        PyObject* result = (PyObject*)funcExec;
+        Py_INCREF(result);
+        return result;
+    }
+
+    Py_ssize_t size;
+    const char* ptr = PyUnicode_AsUTF8AndSize(nameObj, &size);
+    if (size > 0) {
+        if (strcmp(ptr, (const char*)"val1") == 0) {
+            return Py_BuildValue("i", self->val1);
+        }
+    }
+    return NULL;
 }
 
 void dealloc_User(UserObject* User) {
@@ -16,9 +50,24 @@ void dealloc_User(UserObject* User) {
     PyObject_Del(User);
 }
 
-PyObject* User_inicialize(PyObject* self, PyObject* args) { return NULL; }
+PyObject* User_inicialize(UserObject* self, PyObject* args) {
 
-PyObject* User_finalize(PyObject* self, PyObject* args) { return NULL; }
+    int val1_in;
+    int val2_in;
+
+    if (self == NULL)
+        return Py_BuildValue("i", -11);
+
+    if (!PyArg_ParseTuple(args, "ii", &val1_in, &val1_in))
+        return NULL;
+
+    self->val1 = val1_in;
+    self->val2 = val2_in;
+
+    return Py_BuildValue("i", 56);
+}
+
+PyObject* User_finalize(UserObject* self, PyObject* args) { return NULL; }
 
 PyObject* hello(PyObject* self) { return PyUnicode_FromFormat("Hello C extension!"); }
 
@@ -32,8 +81,8 @@ PyObject* createUser(PyObject* self, PyObject* args) {
     User = PyObject_New(UserObject, &UserType);
 
     // memset(User, 0, sizeof(UserObject));
-    User->val1 = 99;
-    User->val2 = 123;
+    User->val1 = 202;
+    User->val2 = 303;
     // sprintf(User->buffer, "Inicializado objeto: %d", 0);
 
     if (pyErr != 0) {
