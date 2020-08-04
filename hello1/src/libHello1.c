@@ -31,6 +31,11 @@ PyObject* createUser(PyObject* self, PyObject* args) {
 
     User = PyObject_New(UserObject, &UserType);
 
+    // memset(User, 0, sizeof(UserObject));
+    User->val1 = 99;
+    User->val2 = 123;
+    // sprintf(User->buffer, "Inicializado objeto: %d", 0);
+
     if (pyErr != 0) {
         // Problem Opening the Source - Raise an Exception
         sprintf(szMessage, "return code %d", 9);

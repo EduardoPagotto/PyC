@@ -14,7 +14,7 @@ typedef struct {
     // char szUnused[4096];
     int val1;
     int val2;
-    char buffer[10];
+    char buffer[255];
 } UserObject, *pUserObject;
 
 PyObject* User_getattr(UserObject* self, char* name);

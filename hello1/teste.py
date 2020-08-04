@@ -9,9 +9,14 @@ import helloworld
 
 
 def main():
-    print(helloworld.hello())
-    val = helloworld.createUser()
-    print(str(val))
+
+    try:
+        print(helloworld.hello())
+        val = helloworld.createUser()
+        print('--------')
+        print(str(val))
+    except Exception as exp:
+        print('Erro: %s', str(exp))
 
 
 if __name__ == "__main__":
