@@ -6,6 +6,10 @@
 int handlername2int(PyObject* name) {
     int i;
     for (i = 0; User_methods[i].ml_name != NULL; i++) {
+
+        // if (strcmp(name, User_methods[i].ml_name) == 0)
+        //     return i;
+
         if (PyUnicode_CompareWithASCIIString(name, User_methods[i].ml_name) == 0) {
             return i;
         }
@@ -13,32 +17,26 @@ int handlername2int(PyObject* name) {
     return -1;
 }
 
-PyObject* User_getattr(UserObject* self, PyObject* nameObj) {
-    // return Py_FindMethod(User_methods, (PyObject*)self, name); // TODO: implementado aqui!!!!
+PyObject* User_getattr(UserObject* self, char* name) { // char* name
 
-    // Py_UNICODE* name;
     int handlernum = -1;
+    PyObject* nameObj = PyUnicode_FromString(name);
 
     // if (!PyUnicode_Check(nameObj))
     //     return PyObject_GenericGetAttr((PyObject*)self, nameObj);
 
     handlernum = handlername2int(nameObj);
-
     if (handlernum != -1) {
-        PyCFunction funcExec = User_methods[handlernum].ml_meth;
-
-        PyObject* result = (PyObject*)funcExec;
-        Py_INCREF(result);
-        return result;
+        return PyCFunction_New(&User_methods[handlernum], (PyObject*)self); // FIXME: Verificar se memory-leak
     }
 
     Py_ssize_t size;
-    const char* ptr = PyUnicode_AsUTF8AndSize(nameObj, &size);
-    if (size > 0) {
-        if (strcmp(ptr, (const char*)"val1") == 0) {
-            return Py_BuildValue("i", self->val1);
-        }
+    // const char* ptr = PyUnicode_AsUTF8AndSize(nameObj, &size);
+    // if (size > 0) {
+    if (strcmp(name, (const char*)"val1") == 0) {
+        return Py_BuildValue("i", self->val1);
     }
+    // }
     return NULL;
 }
 
@@ -58,7 +56,7 @@ PyObject* User_inicialize(UserObject* self, PyObject* args) {
     if (self == NULL)
         return Py_BuildValue("i", -11);
 
-    if (!PyArg_ParseTuple(args, "ii", &val1_in, &val1_in))
+    if (!PyArg_ParseTuple(args, "ii", &val1_in, &val2_in))
         return NULL;
 
     self->val1 = val1_in;
