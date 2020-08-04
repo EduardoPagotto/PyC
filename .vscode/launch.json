@@ -12,15 +12,11 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "gcc-9 - Criar e depurar o arquivo ativo",
+            "name": "(gdb) Anexar Hello",
             "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
+            "request": "attach",
+            "program": "/bin/python3",
+            "processId": "${command:pickProcess}",
             "MIMode": "gdb",
             "setupCommands": [
                 {
@@ -28,9 +24,7 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ],
-            "preLaunchTask": "C/C++: gcc-9 build active file",
-            "miDebuggerPath": "/usr/bin/gdb"
-        }
+            ]
+        },
     ]
 }

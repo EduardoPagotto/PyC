@@ -1,26 +1,48 @@
 {
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
     "tasks": [
         {
+            "label": "cmake",
             "type": "shell",
-            "label": "C/C++: gcc-9 build active file",
-            "command": "/usr/bin/gcc-9",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceRoot}/build"
             },
-            "problemMatcher": [
-                "$gcc"
+            "command": "cmake",
+            "args": [
+                "-G",
+                "Unix Makefiles",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                ".."
+            ],
+        },
+        {
+            "label": "make",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "dependsOn": [
+                "cmake"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "command": "make",
+            "problemMatcher": {
+                "owner": "cpp",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
             }
         }
-    ],
-    "version": "2.0.0"
+    ]
 }
