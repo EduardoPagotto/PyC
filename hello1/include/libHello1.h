@@ -3,9 +3,10 @@
 
 #include <Python.h>
 
-// Exceptions
-static PyObject* execCreateUserFailed;
-
+/**
+ * @brief UserObject Tipo definido
+ *
+ */
 typedef struct {
     PyObject_HEAD int id;
     // PyObject_HEAD TW_IDENTITY appID; // storage for App states
@@ -18,11 +19,35 @@ typedef struct {
     char buffer[255];
 } UserObject, *pUserObject;
 
+// /**
+//  * @brief Metodos de acesso ao UserObject Tipo versao Antiga
+//  *
+//  * @param self
+//  * @param name
+//  * @return PyObject*
+//  */
 // PyObject* User_getattr(UserObject* self, char* name);
+
+/**
+ * @brief Metodos de acesso ao UserObject Tipo
+ *
+ * @param self
+ * @param attr
+ * @return PyObject*
+ */
 PyObject* User_getattro(UserObject* self, PyObject* attr);
 
+/**
+ * @brief memory clean
+ *
+ * @param User
+ */
 void dealloc_User(UserObject* User);
 
+/**
+ * @brief Definiciao dos metodos padrao e chamadas do UserObject tipo
+ *
+ */
 static PyTypeObject UserType = {
     PyVarObject_HEAD_INIT(NULL, 0) "User", /* tp_name */
     sizeof(UserObject),                    /* tp_basicsize */
@@ -46,20 +71,76 @@ static PyTypeObject UserType = {
     "User objects",                        /* tp_doc */
 };
 
-PyObject* User_inicialize(UserObject* self, PyObject* args);
-PyObject* User_finalize(UserObject* self, PyObject* args);
-
-PyObject* hello(PyObject*);
-PyObject* heyman(PyObject*, PyObject*);
-PyObject* add(PyObject*, PyObject*);
-
-PyObject* createUser(PyObject* self, PyObject* args);
-
 static char User_inicialize_doc[] = "Inicializacao usuario";
 static char User_finalize_doc[] = "Finalizacao usuario";
+
+/**
+ * @brief Inicializa dados
+ *
+ * @param self
+ * @param args
+ * @return PyObject*
+ */
+PyObject* User_inicialize(UserObject* self, PyObject* args);
+
+/**
+ * @brief Finaliza dados
+ *
+ * @param self
+ * @param args
+ * @return PyObject*
+ */
+PyObject* User_finalize(UserObject* self, PyObject* args);
 
 static PyMethodDef User_methods[] = {{"inicialize", (PyCFunction)User_inicialize, METH_VARARGS, User_inicialize_doc},
                                      {"finalize", (PyCFunction)User_finalize, METH_VARARGS, User_finalize_doc},
                                      {NULL}};
+
+// Metodos chamados diretamente na api
+static char hellofunc_docs[] = "Hello world description.";
+static char heymanfunc_docs[] = "Echo your name and passed number.";
+static char addfunc_docs[] = "Add two numbers function.";
+static char createUser_docs[] = "Create new user c Object";
+
+/**
+ * @brief Mansagem de Hello
+ *
+ * @return PyObject*
+ */
+PyObject* hello(PyObject*);
+
+/**
+ * @brief reponde preenchando dados
+ *
+ * @return PyObject*
+ */
+PyObject* heyman(PyObject*, PyObject*);
+
+/**
+ * @brief soma e retorna
+ *
+ * @return PyObject*
+ */
+PyObject* add(PyObject*, PyObject*);
+
+/**
+ * @brief Create a User object Tipo
+ *
+ * @param self
+ * @param args
+ * @return PyObject*
+ */
+PyObject* createUser(PyObject* self, PyObject* args);
+
+static PyMethodDef helloworld_funcs[] = {{"hello", (PyCFunction)hello, METH_NOARGS, hellofunc_docs},
+                                         {"heyman", (PyCFunction)heyman, METH_VARARGS, heymanfunc_docs},
+                                         {"add", (PyCFunction)add, METH_VARARGS, addfunc_docs},
+                                         {"createUser", (PyCFunction)createUser, METH_VARARGS, createUser_docs},
+                                         {NULL}};
+
+static char helloworldmod_docs[] = "This is hello world module.";
+
+// Exceptions
+static PyObject* execCreateUserFailed;
 
 #endif
