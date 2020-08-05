@@ -16,7 +16,10 @@ def main():
         print('--------')
         print(str(user))
 
-        retorno = user.inicialize(222, 1223)
+        retorno = user.inicialize(2, 33)
+        print(str(retorno))
+
+        retorno = user.finalize(444, 5555)
         print(str(retorno))
 
     except Exception as exp:

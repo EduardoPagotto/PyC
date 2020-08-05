@@ -18,8 +18,8 @@ typedef struct {
     char buffer[255];
 } UserObject, *pUserObject;
 
-PyObject* User_getattr(UserObject* self, char* name);
-// PyObject* User_getattro(PyObject* self, PyObject* attr);
+// PyObject* User_getattr(UserObject* self, char* name);
+PyObject* User_getattro(UserObject* self, PyObject* attr);
 
 void dealloc_User(UserObject* User);
 
@@ -29,7 +29,7 @@ static PyTypeObject UserType = {
     0,                                     /* tp_itemsize */
     (destructor)dealloc_User,              /* tp_dealloc */
     0,                                     /* tp_print */
-    (getattrfunc)User_getattr,             /* tp_getattr */
+    0,                                     /* tp_getattr (getattrfunc)User_getattr,*/
     0,                                     /* tp_setattr */
     0,                                     /* tp_reserved */
     0,                                     /* tp_repr */
@@ -39,7 +39,7 @@ static PyTypeObject UserType = {
     0,                                     /* tp_hash  */
     0,                                     /* tp_call */
     0,                                     /* tp_str */
-    0,                                     /* tp_getattro (getattrofunc)User_getattro,*/
+    (getattrofunc)User_getattro,           /* tp_getattro */
     0,                                     /* tp_setattro */
     0,                                     /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT,                    /* tp_flags */

@@ -6,13 +6,6 @@ char heymanfunc_docs[] = "Echo your name and passed number.";
 char addfunc_docs[] = "Add two numbers function.";
 char createUser_docs[] = "Create new user c Object";
 
-// char User_inicialize_doc[] = "Inicializacao usuario";
-// char User_finalize_doc[] = "Finalizacao usuario";
-
-// PyMethodDef User_methods[] = {{"inicialize", (PyCFunction)User_inicialize, METH_VARARGS, User_inicialize_doc},
-//                               {"finalize", (PyCFunction)User_finalize, METH_VARARGS, User_finalize_doc},
-//                               {NULL}};
-
 PyMethodDef helloworld_funcs[] = {{"hello", (PyCFunction)hello, METH_NOARGS, hellofunc_docs},
                                   {"heyman", (PyCFunction)heyman, METH_VARARGS, heymanfunc_docs},
                                   {"add", (PyCFunction)add, METH_VARARGS, addfunc_docs},
